@@ -13,10 +13,12 @@ from math import pi
 
 def main():
     def get_distance(start, end):
-        distance = np.zeros(end-start)
+        distance = np.zeros(end - start)
         for n in range(start, end):  # calculate the distance that throttle is held high
-            thisDistance = data_df['speed'][n] * (data_df.iloc[n, 0] - data_df.iloc[n-1, 0])  # calculate distance for one time interval
-            distance.put([n-start], thisDistance)  # add distance from a single time interval to distance array for this throttle
+            thisDistance = data_df['speed'][n] * (
+                        data_df.iloc[n, 0] - data_df.iloc[n - 1, 0])  # calculate distance for one time interval
+            distance.put([n - start],
+                         thisDistance)  # add distance from a single time interval to distance array for this throttle
         total_dist = np.sum(distance)
         return total_dist
 
@@ -28,7 +30,8 @@ def main():
     GearRatio = 4
     WheelD = 0.6604  # Wheel diameter in meters
 
-    location = os.path.abspath('OriginalBikeModelFiles\\BOLT3Data.csv')  # csv file trimmed for data from when the bike is racing
+    location = os.path.abspath(
+        'OriginalBikeModelFiles\\BOLT3Data.csv')  # csv file trimmed for data from when the bike is racing
 
     # create DataFrame
     data = pd.read_csv(location, names=['time', 'throttle', 'motorRPM'], header=0, low_memory=False)

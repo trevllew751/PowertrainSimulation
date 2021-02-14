@@ -114,8 +114,8 @@ def main():
 
     # returns time of completion, ID, and whether the pack config will allow it to finish the race
     for i in range(0, specs_df.shape[0]):
-        times[i], ptrainIDs[i], finish[i], powerLoss[i] = psim.main(bolt3_df, specs_df.iloc[i], data_stripper, i, series, parallel)  # call PowertrainSimulation.py
-
+        times[i], ptrainIDs[i], finish[i], powerLoss[i] = psim.main(bolt3_df, specs_df.iloc[i], data_stripper, i,
+                                                                    series, parallel)  # call PowertrainSimulation.py
 
 
 if __name__ == '__main__':

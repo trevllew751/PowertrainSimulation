@@ -15,7 +15,6 @@ allBattConfigs = False
 
 
 def main(data_df, specs, data_stripper, pTrainID, series, parallel):
-
     max_torque = specs[0]
     max_rpm_max_torque = specs[1]
     min_torque = specs[2]
@@ -36,7 +35,8 @@ def main(data_df, specs, data_stripper, pTrainID, series, parallel):
         return kw_race
 
     def power_loss(totalPackkWh, lossCoeff, raceTime):
-        losskWh = lossCoeff * totalPackkWh / (raceTime * 3600)  # calculates kWh losses based on known loss coefficient. Change race time from seconds to hours.
+        losskWh = lossCoeff * totalPackkWh / (
+                    raceTime * 3600)  # calculates kWh losses based on known loss coefficient. Change race time from seconds to hours.
         return losskWh
 
     def pack_specs(parallel, series):
@@ -59,14 +59,14 @@ def main(data_df, specs, data_stripper, pTrainID, series, parallel):
         accelSpeeds[0] = 0
 
         for i in range(0, data_df['distances'].shape[0]):
-            if i % 2 is 1:  # Segments bike is braking
+            if i % 2 == 1:  # Segments bike is braking
                 # Time taken to complete one segment
                 segTime = (2 * data_df['distances'][i]) / abs(
                     accelSpeeds[i] - data_df['final speed'][i + 1])  # difference in speed during brake
                 totTime = totTime + segTime
                 accelSpeeds[i + 1] = 0  # pad array so it lines up properly with final speeds for each segment
-            elif i % 2 is 0:  # segments bike is accelerating
-                if i is 0:
+            elif i % 2 == 0:  # segments bike is accelerating
+                if i == 0:
                     start_speed = 0
                 else:
                     start_speed = data_df['final speed'][i - 1]
@@ -130,7 +130,7 @@ def main(data_df, specs, data_stripper, pTrainID, series, parallel):
     max_accel = max_torque * gear_ratio / wheel_r / total_mass  # Some scaling factors definitely need to be added to this
 
     # Use equation for max acceleration to find proportion of torque to acceleration for the acceleration curve
-    t_to_a = 4/(total_mass * wheel_r)
+    t_to_a = 4 / (total_mass * wheel_r)
 
     # Make m and b values for y=mx+b
     torque_slope = (max_torque - min_torque) / (max_rpm_max_torque - max_overall_rpm)
@@ -162,7 +162,6 @@ def main(data_df, specs, data_stripper, pTrainID, series, parallel):
     canFinish = can_finish(kWh, kWRace, totTime)
     powerLoss = power_loss(kWh, lossCoeff, totTime)
     return totTime, pTrainID, canFinish, powerLoss
-
 
 
 if __name__ == '__main__':
